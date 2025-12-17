@@ -1,17 +1,14 @@
 package com.khurshid.automation.base;
 
+import com.khurshid.automation.driver.DriverManager;
 import com.khurshid.automation.utils.WaitUtils;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.PageLoadStrategy;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,69 +20,78 @@ import java.util.Map;
 
 public class BaseTest {
 
-    protected WebDriver driver;
     protected WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
-
-// Essential Linux Fixes
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-
-// Network/DNS Hang Fixes
-        options.addArguments("--proxy-server='direct://'");
-        options.addArguments("--proxy-bypass-list=*");
-
-// Speed up loading by not waiting for failing resources (like that log/favicon)
+        options.addArguments(
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--proxy-server='direct://'",
+                "--proxy-bypass-list=*"
+        );
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 
+        String downloadPath = System.getProperty("user.dir") + "/downloads";
+        new File(downloadPath).mkdirs();
 
         Map<String, Object> prefs = new HashMap<>();
-        prefs.put("download.default_directory",
-                System.getProperty("user.dir") + "/downloads");
+        prefs.put("download.default_directory", downloadPath);
         prefs.put("download.prompt_for_download", false);
         prefs.put("safebrowsing.enabled", true);
 
         options.setExperimentalOption("prefs", prefs);
 
-        driver = new ChromeDriver(options);
+
+        WebDriver driver = new ChromeDriver(options);
+        DriverManager.setDriver(driver);
         driver.manage().window().maximize();
-        waitUtils = new WaitUtils(driver, 5);
+        waitUtils = new WaitUtils(driver, 10);
     }
+
     @AfterMethod
-    public void captureScreenshotOnFailure(ITestResult result) {
+    public void tearDown(ITestResult result) {
         if (ITestResult.FAILURE == result.getStatus()) {
-            try {
-                TakesScreenshot ts = (TakesScreenshot) driver;
-                File source = ts.getScreenshotAs(OutputType.FILE);
-
-                String timestamp = LocalDateTime.now()
-                        .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-
-                String testName = result.getMethod().getMethodName();
-
-                File destination = new File(
-                        "screenshots/" + testName + "_" + timestamp + ".png"
-                );
-
-                destination.getParentFile().mkdirs();
-                Files.copy(source.toPath(), destination.toPath());
-
-                System.out.println("📸 Screenshot saved: " + destination.getAbsolutePath());
-
-            } catch (IOException e) {
-                System.out.println("❌ Failed to capture screenshot");
-                e.printStackTrace();
-            }
+            captureScreenshot(result);
         }
-    }
-    @AfterMethod
-    public void tearDown(){
-        if(driver!=null) {
+
+        WebDriver driver = DriverManager.getDriver();
+        if (driver != null) {
             driver.quit();
         }
+        DriverManager.unload();
+    }
+
+    private void captureScreenshot(ITestResult result) {
+        try {
+            WebDriver driver = DriverManager.getDriver();
+            TakesScreenshot ts = (TakesScreenshot) driver;
+
+            File source = ts.getScreenshotAs(OutputType.FILE);
+            String timestamp = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+
+            File destination = new File(
+                    "screenshots/" + result.getMethod().getMethodName() +
+                            "_" + timestamp + ".png"
+            );
+
+            destination.getParentFile().mkdirs();
+            Files.copy(source.toPath(), destination.toPath());
+
+            System.out.println("📸 Screenshot saved: " + destination.getAbsolutePath());
+
+        } catch (IOException e) {
+            System.out.println("❌ Failed to capture screenshot");
+            e.printStackTrace();
+        }
+    }
+
+    protected WebDriver getDriver() {
+        return DriverManager.getDriver();
     }
 }

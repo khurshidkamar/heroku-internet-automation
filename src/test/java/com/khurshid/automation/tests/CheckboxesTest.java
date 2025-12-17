@@ -11,10 +11,10 @@ public class CheckboxesTest extends BaseTest{
     @Test
     public void testCheckboxes(){
         //Navigate
-        driver.get("https://the-internet.herokuapp.com/checkboxes");
+        getDriver().get("https://the-internet.herokuapp.com/checkboxes");
 
         //page object
-        CheckBoxesPage checkBoxesPage = new CheckBoxesPage(driver, waitUtils);
+        CheckBoxesPage checkBoxesPage = new CheckBoxesPage(getDriver(), waitUtils);
 
         //Actions
         checkBoxesPage.selectCheckBox1();

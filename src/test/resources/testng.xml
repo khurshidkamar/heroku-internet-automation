@@ -1,99 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="AutomationSuite" parallel="tests" thread-count="3">
-
-    <!-- Alerts Tests -->
-    <test name="AlertsTests">
-        <classes>
-            <class name="com.khurshid.automation.tests.AlertsTest"/>
-        </classes>
-    </test>
-
-    <!-- Checkboxes Tests -->
-    <test name="CheckboxesTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.CheckboxesTest"/>
-        </classes>
-    </test>
-
-    <!-- Dynamic Loading Tests -->
-    <test name="DynamicLoadingTests">
-        <classes>
-            <class name="com.khurshid.automation.tests.DynamicLoadingTest"/>
-        </classes>
-    </test>
-    <!-- Dynamic ControlsTests -->
-    <test name="DynamicControlsTests">
-        <classes>
-            <class name="com.khurshid.automation.tests.DynamicControlsTest"/>
-        </classes>
-    </test>
-
-    <!-- Login Tests -->
-    <test name="LoginTests">
-        <classes>
-            <class name="com.khurshid.automation.tests.LoginTest"/>
-        </classes>
-    </test>
-
-    <!-- File Upload/Download Tests -->
-    <test name="FileUploadDownloadTests">
-        <classes>
-            <class name="com.khurshid.automation.tests.FileUploadTest"/>
-            <class name="com.khurshid.automation.tests.FileDownloadTest"/>
-        </classes>
-    </test>
-
-    <!-- Drag and Drop Test -->
-    <test name="DragAndDropTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.DragAndDropTest"/>
-        </classes>
-    </test>
-
-    <!-- JavaScript Executor Demo Test -->
-    <test name="JavaScriptExecutorTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.JavaScriptExecutorTest"/>
-        </classes>
-    </test>
-
-    <!-- Key Presses Test -->
-    <test name="KeyPressesTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.KeyPressesTest"/>
-        </classes>
-    </test>
-
-    <!-- Tables Test -->
-    <test name="TablesTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.TablesTest"/>
-        </classes>
-    </test>
-
-    <!-- Windows Test -->
-    <test name="WindowsTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.WindowsTest"/>
-        </classes>
-    </test>
-    <!-- Dropdown Tests -->
-    <test name="DropdownTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.DropdownTest"/>
-        </classes>
-    </test>
-    <!-- Hovers -->
-    <test name="HoversTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.HoversTest"/>
-        </classes>
-    </test>
-    <test name="FramesTest">
-        <classes>
-            <class name="com.khurshid.automation.tests.FramesTest"/>
-        </classes>
+<suite name="Parallel Suite" parallel="methods" thread-count="3">
+    <listeners>
+        <listener class-name="com.khurshid.automation.utils.RetryListener"/>
+    </listeners>
+    <test name="UI Tests">
+        <packages>
+            <package name="com.khurshid.automation.tests"/>
+        </packages>
     </test>
 
 </suite>

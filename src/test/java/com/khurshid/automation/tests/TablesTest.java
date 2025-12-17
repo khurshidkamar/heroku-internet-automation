@@ -2,17 +2,18 @@ package com.khurshid.automation.tests;
 
 import com.khurshid.automation.base.BaseTest;
 import com.khurshid.automation.pages.TablesPage;
+import com.khurshid.automation.utils.RetryAnalyzer;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class TablesTest extends BaseTest {
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void readTableData() {
-        driver.get("https://the-internet.herokuapp.com/tables");
+        getDriver().get("https://the-internet.herokuapp.com/tables");
 
-        TablesPage table = new TablesPage(driver, waitUtils);
+        TablesPage table = new TablesPage(getDriver(), waitUtils);
 
         String lastName = table.getCellValue(0, "Last Name");
         String email = table.getCellValue(0, "Email");
@@ -22,9 +23,9 @@ public class TablesTest extends BaseTest {
     }
     @Test
     public void verifyRowDataByLastName() {
-        driver.get("https://the-internet.herokuapp.com/tables");
+        getDriver().get("https://the-internet.herokuapp.com/tables");
 
-        TablesPage table = new TablesPage(driver, waitUtils);
+        TablesPage table = new TablesPage(getDriver(), waitUtils);
 
         int rowIndex = table.getRowIndexByColumnValue("Last Name", "Bach");
 

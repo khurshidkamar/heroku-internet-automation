@@ -10,9 +10,9 @@ public class FileUploadTest extends BaseTest {
 
     @Test
     public void fileUploadTest() {
-        driver.get("https://the-internet.herokuapp.com/upload");
+        getDriver().get("https://the-internet.herokuapp.com/upload");
 
-        FileUploadPage uploadPage = new FileUploadPage(driver, waitUtils);
+        FileUploadPage uploadPage = new FileUploadPage(getDriver(), waitUtils);
 
 
         String filePath = System.getProperty("user.dir") + "/src/test/resources/testfile.txt";

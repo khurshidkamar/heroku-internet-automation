@@ -7,14 +7,14 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 import org.openqa.selenium.Keys;
-
+import com.khurshid.automation.utils.RetryAnalyzer;
 public class KeyPressesTest extends BaseTest {
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void pressEnterKeyTest() {
-        driver.get("https://the-internet.herokuapp.com/key_presses");
+        getDriver().get("https://the-internet.herokuapp.com/key_presses");
 
-        KeyPressesPage page = new KeyPressesPage(driver, waitUtils);
+        KeyPressesPage page = new KeyPressesPage(getDriver(), waitUtils);
 
         page.pressKey(Keys.ENTER);
 

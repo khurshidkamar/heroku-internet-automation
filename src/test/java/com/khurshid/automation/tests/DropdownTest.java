@@ -10,9 +10,9 @@ public class DropdownTest extends BaseTest {
 
     @Test
     public void testDropdownSelection() {
-        driver.get("https://the-internet.herokuapp.com/dropdown");
+        getDriver().get("https://the-internet.herokuapp.com/dropdown");
 
-        DropdownPage dropdownPage = new DropdownPage(driver, waitUtils);
+        DropdownPage dropdownPage = new DropdownPage(getDriver(), waitUtils);
 
         dropdownPage.selectByVisibleText("Option 1");
         assertEquals("Option 1", dropdownPage.getSelectedOption());

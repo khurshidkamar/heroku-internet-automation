@@ -2,17 +2,18 @@ package com.khurshid.automation.tests;
 
 import com.khurshid.automation.base.BaseTest;
 import com.khurshid.automation.pages.DynamicControlsPage;
+import com.khurshid.automation.utils.RetryAnalyzer;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
 public class DynamicControlsTest extends BaseTest {
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void testRemoveAndAddCheckbox() {
-        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        getDriver().get("https://the-internet.herokuapp.com/dynamic_controls");
 
-        DynamicControlsPage page = new DynamicControlsPage(driver, waitUtils);
+        DynamicControlsPage page = new DynamicControlsPage(getDriver(), waitUtils);
 
         page.clickRemove();
         assertFalse(page.isCheckboxPresent(), "Checkbox should be removed");
@@ -23,11 +24,11 @@ public class DynamicControlsTest extends BaseTest {
         assertTrue(page.getMessage().contains("It's back"));
     }
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void testEnableAndDisableInput() {
-        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        getDriver().get("https://the-internet.herokuapp.com/dynamic_controls");
 
-        DynamicControlsPage page = new DynamicControlsPage(driver, waitUtils);
+        DynamicControlsPage page = new DynamicControlsPage(getDriver(), waitUtils);
 
         page.clickEnable();
         assertTrue(page.isInputEnabled(), "Input should be enabled");

@@ -10,9 +10,9 @@ public class JavaScriptExecutorTest extends BaseTest {
 
     @Test
     public void javascriptExecutorDemoTest() {
-        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        getDriver().get("https://the-internet.herokuapp.com/dynamic_controls");
 
-        JavaScriptDemoPage page = new JavaScriptDemoPage(driver, waitUtils);
+        JavaScriptDemoPage page = new JavaScriptDemoPage(getDriver(), waitUtils);
 
         page.scrollToInput();
 

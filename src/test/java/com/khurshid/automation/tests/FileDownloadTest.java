@@ -14,9 +14,9 @@ public class FileDownloadTest extends BaseTest {
 
     @Test
     public void fileDownloadTest() throws InterruptedException {
-        driver.get("https://the-internet.herokuapp.com/download");
+        getDriver().get("https://the-internet.herokuapp.com/download");
 
-        FileDownloadPage page = new FileDownloadPage(driver, waitUtils);
+        FileDownloadPage page = new FileDownloadPage(getDriver(), waitUtils);
         String fileName = page.clickFirstFile();
 
         File downloadedFile = new File(
@@ -32,4 +32,5 @@ public class FileDownloadTest extends BaseTest {
 
         assertTrue(downloadedFile.exists(), "Downloaded file should exist");
     }
+
 }

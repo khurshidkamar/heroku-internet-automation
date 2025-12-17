@@ -10,9 +10,9 @@ public class FramesTest extends BaseTest {
 
     @Test
     public void iframeTest() {
-        driver.get("https://the-internet.herokuapp.com/iframe");
+        getDriver().get("https://the-internet.herokuapp.com/iframe");
 
-        FramesPage framesPage = new FramesPage(driver, waitUtils);
+        FramesPage framesPage = new FramesPage(getDriver(), waitUtils);
 
         framesPage.switchToIframe();
 //        framesPage.clearAndTypeText("Hello from Selenium");

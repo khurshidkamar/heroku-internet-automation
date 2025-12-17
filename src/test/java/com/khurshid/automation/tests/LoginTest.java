@@ -14,15 +14,15 @@ public class LoginTest extends BaseTest {
 
     @Test
    public void validLoginTest() {
-        driver.get("https://the-internet.herokuapp.com/login");
+        getDriver().get("https://the-internet.herokuapp.com/login");
 
-        LoginPage loginPage = new LoginPage(driver, waitUtils);
+        LoginPage loginPage = new LoginPage(getDriver(), waitUtils);
         loginPage.login(
                 LoginTestData.VALID_USERNAME,
                 LoginTestData.VALID_PASSWORD
         );
 
-        SecureAreaPage secureAreaPage = new SecureAreaPage(driver, waitUtils);
+        SecureAreaPage secureAreaPage = new SecureAreaPage(getDriver(), waitUtils);
         assertTrue(
                 secureAreaPage.getSuccessMessage().contains("You logged into a secure area"),
                 "Login should be successful"
@@ -31,9 +31,9 @@ public class LoginTest extends BaseTest {
 
     @Test
    public void invalidLoginTest() {
-        driver.get("https://the-internet.herokuapp.com/login");
+        getDriver().get("https://the-internet.herokuapp.com/login");
 
-        LoginPage loginPage = new LoginPage(driver, waitUtils);
+        LoginPage loginPage = new LoginPage(getDriver(), waitUtils);
         loginPage.login(
                 LoginTestData.INVALID_USERNAME,
                 LoginTestData.INVALID_PASSWORD

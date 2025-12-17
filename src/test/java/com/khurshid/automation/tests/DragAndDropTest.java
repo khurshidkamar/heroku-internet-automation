@@ -10,9 +10,9 @@ public class DragAndDropTest extends BaseTest {
 
     @Test
     public void dragAndDropTest() {
-        driver.get("https://the-internet.herokuapp.com/drag_and_drop");
+        getDriver().get("https://the-internet.herokuapp.com/drag_and_drop");
 
-        DragAndDropPage page = new DragAndDropPage(driver, waitUtils);
+        DragAndDropPage page = new DragAndDropPage(getDriver(), waitUtils);
 
         page.dragAToB();
 
