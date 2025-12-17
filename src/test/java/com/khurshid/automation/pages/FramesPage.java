@@ -1,8 +1,10 @@
 package com.khurshid.automation.pages;
 
 import com.khurshid.automation.base.BasePage;
+import com.khurshid.automation.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,8 +15,8 @@ public class FramesPage extends BasePage {
     private By iframe = By.id("mce_0_ifr");
     private By textBox = By.id("tinymce");
 
-    public FramesPage(WebDriver driver) {
-        super(driver);
+    public FramesPage(WebDriver driver, WaitUtils waitUtils) {
+        super(driver, waitUtils);
     }
 
     public void switchToIframe() {
@@ -23,16 +25,19 @@ public class FramesPage extends BasePage {
     }
 
     public void clearAndTypeText(String text) {
-        driver.findElement(textBox).clear();
-        driver.findElement(textBox).sendKeys(text);
+        WebElement editor = waitUtils.waitForVisibility(textBox);
+        editor.clear();
+        editor.sendKeys(text);
     }
 
     public String getEditorText() {
-        return driver.findElement(textBox).getText();
-        }
-    public boolean frameIsDisplayed(){
-        return driver.findElement(By.id("tinymce")).isDisplayed();
+        return waitUtils.waitForVisibility(textBox).getText();
     }
+
+    public boolean frameIsDisplayed() {
+        return waitUtils.waitForVisibility(textBox).isDisplayed();
+    }
+
     public void switchBackToMainPage() {
         driver.switchTo().defaultContent();
     }

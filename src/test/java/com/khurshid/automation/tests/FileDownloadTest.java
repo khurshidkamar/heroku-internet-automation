@@ -2,20 +2,21 @@ package com.khurshid.automation.tests;
 
 import com.khurshid.automation.base.BaseTest;
 import com.khurshid.automation.pages.FileDownloadPage;
-import org.junit.jupiter.api.Test;
+
 
 import java.io.File;
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class FileDownloadTest extends BaseTest {
 
     @Test
-    void fileDownloadTest() throws InterruptedException {
+    public void fileDownloadTest() throws InterruptedException {
         driver.get("https://the-internet.herokuapp.com/download");
 
-        FileDownloadPage page = new FileDownloadPage(driver);
+        FileDownloadPage page = new FileDownloadPage(driver, waitUtils);
         String fileName = page.clickFirstFile();
 
         File downloadedFile = new File(

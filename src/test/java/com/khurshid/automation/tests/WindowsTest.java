@@ -2,17 +2,17 @@ package com.khurshid.automation.tests;
 
 import com.khurshid.automation.base.BaseTest;
 import com.khurshid.automation.pages.WindowsPage;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class WindowsTest extends BaseTest {
 
     @Test
-    void multipleWindowsTest() {
+    public void multipleWindowsTest() {
         driver.get("https://the-internet.herokuapp.com/windows");
 
-        WindowsPage windowsPage = new WindowsPage(driver);
+        WindowsPage windowsPage = new WindowsPage(driver, waitUtils);
 
         String parentWindow = driver.getWindowHandle();
 

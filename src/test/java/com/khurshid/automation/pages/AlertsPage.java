@@ -1,6 +1,7 @@
 package com.khurshid.automation.pages;
 
 import com.khurshid.automation.base.BasePage;
+import com.khurshid.automation.utils.WaitUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,42 +13,42 @@ public class AlertsPage extends BasePage {
     private By jsPromptButton = By.xpath("//button[text()='Click for JS Prompt']");
     private By resultText = By.id("result");
 
-    public AlertsPage(WebDriver driver) {
-        super(driver);
+    public AlertsPage(WebDriver driver, WaitUtils waitUtils) {
+        super(driver, waitUtils);
     }
 
     public void openJsAlert() {
-        driver.findElement(jsAlertButton).click();
+        waitUtils.waitForClickable(jsAlertButton).click();
     }
 
     public void openJsConfirm() {
-        driver.findElement(jsConfirmButton).click();
+        waitUtils.waitForClickable(jsConfirmButton).click();
     }
 
     public void openJsPrompt() {
-        driver.findElement(jsPromptButton).click();
+        waitUtils.waitForClickable(jsPromptButton).click();
     }
 
     public String getAlertText() {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = waitUtils.waitForAlert();
         return alert.getText();
     }
 
     public void acceptAlert() {
-        driver.switchTo().alert().accept();
+        waitUtils.waitForAlert().accept();
     }
 
     public void dismissAlert() {
-        driver.switchTo().alert().dismiss();
+        waitUtils.waitForAlert().dismiss();
     }
 
     public void enterTextInPrompt(String text) {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = waitUtils.waitForAlert();
         alert.sendKeys(text);
         alert.accept();
     }
 
     public String getResultText() {
-        return driver.findElement(resultText).getText();
+        return waitUtils.waitForVisibility(resultText).getText();
     }
 }

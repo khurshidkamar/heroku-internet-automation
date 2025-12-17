@@ -1,23 +1,24 @@
 package com.khurshid.automation.pages;
 
+import com.khurshid.automation.base.BasePage;
+import com.khurshid.automation.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.Set;
 
-public class WindowsPage {
+public class WindowsPage extends BasePage {
 
-    private WebDriver driver;
+    private final By clickHereLink = By.linkText("Click Here");
+    private final By headerText = By.tagName("h3");
 
-    private By clickHereLink = By.linkText("Click Here");
-    private By headerText = By.tagName("h3");
-
-    public WindowsPage(WebDriver driver) {
-        this.driver = driver;
+    public WindowsPage(WebDriver driver, WaitUtils waitUtils) {
+        super(driver, waitUtils);
     }
 
     public void openNewWindow() {
-        driver.findElement(clickHereLink).click();
+        waitUtils.waitForClickable(clickHereLink).click();
     }
 
     public void switchToNewWindow(String parentHandle) {
@@ -31,6 +32,7 @@ public class WindowsPage {
     }
 
     public String getHeaderText() {
-        return driver.findElement(headerText).getText();
+        WebElement header = waitUtils.waitForVisibility(headerText);
+        return header.getText();
     }
 }

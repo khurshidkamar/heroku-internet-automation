@@ -1,10 +1,11 @@
 package com.khurshid.automation.base;
 
+import com.khurshid.automation.utils.WaitUtils;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -14,9 +15,10 @@ import java.util.Map;
 public class BaseTest {
 
     protected WebDriver driver;
+    protected WaitUtils waitUtils;
 
-    @BeforeEach
-    void setUp(){
+    @BeforeMethod
+    public void setUp(){
         ChromeOptions options = new ChromeOptions();
 
 // Essential Linux Fixes
@@ -42,10 +44,11 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
+        waitUtils = new WaitUtils(driver, 5);
     }
 
-    @AfterEach
-    void tearDown(){
+    @AfterMethod
+    public void tearDown(){
         if(driver!=null) {
             driver.quit();
         }
