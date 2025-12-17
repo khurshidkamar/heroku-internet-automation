@@ -8,7 +8,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +55,33 @@ public class BaseTest {
         driver.manage().window().maximize();
         waitUtils = new WaitUtils(driver, 5);
     }
+    @AfterMethod
+    public void captureScreenshotOnFailure(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            try {
+                TakesScreenshot ts = (TakesScreenshot) driver;
+                File source = ts.getScreenshotAs(OutputType.FILE);
 
+                String timestamp = LocalDateTime.now()
+                        .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+
+                String testName = result.getMethod().getMethodName();
+
+                File destination = new File(
+                        "screenshots/" + testName + "_" + timestamp + ".png"
+                );
+
+                destination.getParentFile().mkdirs();
+                Files.copy(source.toPath(), destination.toPath());
+
+                System.out.println("📸 Screenshot saved: " + destination.getAbsolutePath());
+
+            } catch (IOException e) {
+                System.out.println("❌ Failed to capture screenshot");
+                e.printStackTrace();
+            }
+        }
+    }
     @AfterMethod
     public void tearDown(){
         if(driver!=null) {
